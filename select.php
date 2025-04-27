@@ -10,9 +10,22 @@ try{
   exit;
 }
 
+//検索キーワード取得
+$search = '';
+if(isset($_GET['search'])){
+  $search = $_GET['search'];
+}
+
+
 //データ取得
-$sql = 'SELECT * FROM test ORDER BY date DESC';
-$stmt = $pdo->prepare($sql);
+if(!empty($search)){
+  $sql = 'SELECT * FROM test WHERE title LIKE :search ORDER BY date DESC';
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+}else{
+  $sql = 'SELECT * FROM test ORDER BY date DESC';
+  $stmt = $pdo->prepare($sql);
+}
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -40,12 +53,14 @@ if(isset($_GET['message'])){
 </head>
 <body>
   <h1>登録された予定一覧</h1>
+  <form method="GET" action="select.php" style="margin-bottom: 20px">
+    <input type="text" name="search" placeholder="タイトルで検索" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search'], ENT_QUOTES) : ''; ?>">
+    <button type="submit">検索</button>
+  </form>
+
 
   <div class="card-container">
     <?php
-    // DB接続
-    $pdo = new PDO('mysql:dbname=test_db;host=localhost;charset=utf8','root','root');
-
     // 表示
     foreach ($results as $record) {
       echo '<div class="card">';
@@ -58,6 +73,7 @@ if(isset($_GET['message'])){
       echo '</div>';
       echo '</div>';
     }
+
     ?>
   </div>
 
