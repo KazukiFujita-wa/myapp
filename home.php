@@ -17,5 +17,6 @@ if(!isset($_SESSION['user_id'])){
   <body>
     <h1>こんにちは、<?= htmlspecialchars($_SESSION['username'], ENT_QUOTES); ?>さん！</h1>
     <a href="logout.php">ログアウト</a>
+    <a href="post.php">投稿画面へ進む</a>
   </body>
 </html>
