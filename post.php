@@ -16,15 +16,13 @@ session_start();
 
     <form action="post_process.php" method="POST">
       <div>
-        <label>投稿内容（50文字以内）</label><br>
-        <textarea name="content" rows="4" cols="50" maxlength="50" required></textarea>
-      </div>
-
-      <div>
         <label>目標タイトル</label><br>
         <input type="text" name="goal" maxlength="100" required>
       </div>
-
+      <div>
+        <label>投稿内容（50文字以内）</label><br>
+        <textarea name="content" rows="4" cols="50" maxlength="50" required></textarea>
+      </div>
       <button type="submit">投稿する</button>
     </form>
     <p><a href="home.php">ホームに戻る</a></p>

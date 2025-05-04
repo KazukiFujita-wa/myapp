@@ -11,6 +11,11 @@ if(!isset($_SESSION['user_id'])){
   header('Location: login.php');
   exit;
 }
+//ログイン判別
+if (!isset($_SESSION['user_id'])) {
+  header('Location: login.php');
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,13 +28,15 @@ if(!isset($_SESSION['user_id'])){
   <body>
     <h1>投稿一覧</h1>
     <?php foreach ($posts as $post): ?>
-      <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+      <div class="card">
         <p><strong><?= htmlspecialchars($post['username']) ?></strong></p>
+        <p><strong><?= htmlspecialchars($post['goal_title'])?></strong></p>
         <p><?= htmlspecialchars($post['content'])?></p>
         <p><em><?= $post['created_at']?></em></p>
       </div>
     <?php endforeach ?>
     <a href="logout.php">ログアウト</a>
     <a href="post.php">投稿画面へ進む</a>
+    <a href="mypage.php">マイページを表示する</a>
   </body>
 </html>
