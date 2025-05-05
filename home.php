@@ -3,10 +3,20 @@ session_start();
 require_once 'db_connect.php';
 
 //投稿一覧取得
-$sql = "SELECT posts.*, users.username From posts INNER JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC";
-$stmt = $pdo->prepare($sql);
+$user_id = $_SESSION['user_id'];
+$stmt = $pdo->prepare(
+  'SELECT posts.*, users.username, users.icon
+  FROM posts
+  JOIN users ON posts.user_id = users.id
+  WHERE (posts.user_id = :user_id
+          OR posts.user_id IN (
+            SELECT followed_id FROM follows WHERE follower_id = :user_id
+          ))
+  ORDER BY posts.created_at DESC'
+);
+$stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
-$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$posts = $stmt->fetchAll();
 if(!isset($_SESSION['user_id'])){
   header('Location: login.php');
   exit;
