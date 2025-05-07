@@ -40,8 +40,6 @@ if(isset($_GET['message'])){
     $message = '削除が完了しました！';
   }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +68,10 @@ if(isset($_GET['message'])){
       echo '<div class="btn-area">';
       echo '<a href="update.php?id=' . $record["id"] . '" class="btn">更新</a> ';
       echo '<a href="delete.php?id=' . $record["id"] . '" class="btn btn-delete">削除</a>';
+      echo '<form action="complete_goal.php" method="POST" style="display:inline;">';
+      echo '<input type="hidden" name="goal_id" value="' . $record["id"] . '">';
+      echo '<button type="submit" class="btn">達成</button>';
+      echo '</form>';
       echo '</div>';
       echo '</div>';
     }
